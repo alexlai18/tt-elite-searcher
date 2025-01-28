@@ -3,7 +3,7 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 
 interface DuplicateMatches {
-  players: String,
+  players: string,
   timestamp: number
 }
 
