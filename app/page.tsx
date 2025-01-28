@@ -13,7 +13,7 @@ export default function Home() {
           height={38}
           priority
         />
-        <h2 className="text-2xl/7 font-bold text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">TT Elite Head2Head</h2>
+        <h2 className="text-2xl/7 font-bold text-gray-900 dark:text-white sm:truncate sm:text-3xl sm:tracking-tight">TT Elite Head2Head</h2>
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2">
             Look for any player matchups which occur within 10 hours of each other
