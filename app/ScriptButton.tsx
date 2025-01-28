@@ -42,6 +42,10 @@ export default function ScriptButton() {
         if (matchList[i].players === matchList[j].players) { // Same pair of teams
           const timeDiff = Math.abs(matchList[j].timestamp - matchList[i].timestamp);
           if (timeDiff <= timeWindow) {
+            const now = Date.now() / 1000;
+            if (matchList[i].timestamp < now && matchList[j].timestamp < now) {
+              continue;
+            }
             duplicateMatches.push([matchList[i], matchList[j]]);
           }
         }
@@ -53,6 +57,12 @@ export default function ScriptButton() {
 
   // Function to fetch matches from the API
   const fetchMatches = async () => {
+    const [futureMatches, pastMatches] = await Promise.all([fetchFuture(), fetchPast()]);
+    const allMatches = futureMatches.concat(pastMatches);
+    return allMatches;
+  };
+
+  const fetchFuture = async () => {
     let allMatches: any[] = [];
     let counter = 0;
     while (true) {
@@ -75,7 +85,34 @@ export default function ScriptButton() {
     }
 
     return allMatches;
-  };
+  }
+
+  const fetchPast = async () => {
+    let allMatches: any[] = [];
+    let counter = 0;
+    for (let i = 0; i < 3; i += 1) {
+      try {
+        const response = await fetch(
+          `https://www.sofascore.com/api/v1/unique-tournament/19041/events/last/${counter}`
+        );
+        const fetchedData = await response.json()
+        const matches = fetchedData.events;
+        allMatches = allMatches.concat(matches);
+
+        if (!fetchedData.hasNextPage) {
+          break;
+        }
+        counter++;
+      } catch (error) {
+        console.error('Error fetching matches:', error);
+        break;
+      }
+    }
+
+    return allMatches;
+  }
+
+
 
   // Handle button click
   const handleClick = async () => {
