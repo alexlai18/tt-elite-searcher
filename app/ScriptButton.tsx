@@ -4,7 +4,9 @@ import React, { useState } from 'react';
 
 interface DuplicateMatches {
   players: string,
-  timestamp: number
+  timestamp: number,
+  slug: string,
+  customId: string
 }
 
 export default function ScriptButton() {
@@ -20,14 +22,16 @@ export default function ScriptButton() {
     for (const match of matches) {
       const players = [match.homeTeam.name, match.awayTeam.name].sort().join(' vs ');
       const timestamp = match.startTimestamp;
-      matchSet.add(`${players}|${timestamp}`);
+      const customId = match.customId;
+      const slug = match.slug;
+      matchSet.add(`${players}|${timestamp}|${slug}|${customId}`);
     }
 
     // Convert the set to an array and sort by timestamp
     const matchList = Array.from(matchSet)
       .map((entry: string) => {
-        const [players, timestamp] = entry.split('|');
-        return { players, timestamp: parseInt(timestamp) };
+        const [players, timestamp, slug, customId] = entry.split('|');
+        return { players, timestamp: parseInt(timestamp), slug, customId };
       })
       .sort((a, b) => a.timestamp - b.timestamp);
 
@@ -69,7 +73,7 @@ export default function ScriptButton() {
         break;
       }
     }
-    console.log(allMatches)
+
     return allMatches;
   };
 
@@ -116,7 +120,15 @@ export default function ScriptButton() {
               });
               return (
                 <li key={index}>
-                  <strong>{match1.players}</strong> at {time1} and {time2}
+                  <strong>
+                    <a
+                      href={`https://www.sofascore.com/table-tennis/match/${match1.slug}/${match1.customId}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {match1.players}
+                    </a>
+                  </strong> at {time1} and {time2}
                 </li>
               );
             })}
