@@ -2,8 +2,13 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
 
+interface DuplicateMatches {
+  players: String,
+  timestamp: number
+}
+
 export default function ScriptButton() {
-  const [duplicates, setDuplicates] = useState<any[]>([]);
+  const [duplicates, setDuplicates] = useState<DuplicateMatches[][]>([]);
   const [loading, setLoading] = useState(false);
 
   // Function to find duplicate matches within a given time window
@@ -11,7 +16,7 @@ export default function ScriptButton() {
     const timeWindow = maxHours * 3600; // Convert hours to seconds
 
     // Create a set of matches with sorted team names and timestamps
-    const matchSet = new Set();
+    const matchSet = new Set<string>();
     for (const match of matches) {
       const players = [match.homeTeam.name, match.awayTeam.name].sort().join(' vs ');
       const timestamp = match.startTimestamp;
@@ -20,7 +25,7 @@ export default function ScriptButton() {
 
     // Convert the set to an array and sort by timestamp
     const matchList = Array.from(matchSet)
-      .map((entry: any) => {
+      .map((entry: string) => {
         const [players, timestamp] = entry.split('|');
         return { players, timestamp: parseInt(timestamp) };
       })
@@ -52,7 +57,6 @@ export default function ScriptButton() {
           `https://www.sofascore.com/api/v1/unique-tournament/19041/events/next/${counter}`
         );
         const fetchedData = await response.json()
-        console.log(fetchedData)
         const matches = fetchedData.events;
         allMatches = allMatches.concat(matches);
 
@@ -65,6 +69,7 @@ export default function ScriptButton() {
         break;
       }
     }
+    console.log(allMatches)
     return allMatches;
   };
 
