@@ -90,7 +90,7 @@ export default function ScriptButton() {
   const fetchPast = async () => {
     let allMatches: any[] = [];
     let counter = 0;
-    for (let i = 0; i < 3; i += 1) {
+    for (let i = 0; i < 4; i += 1) {
       try {
         const response = await fetch(
           `https://www.sofascore.com/api/v1/unique-tournament/19041/events/last/${counter}`
