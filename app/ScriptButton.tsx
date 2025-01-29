@@ -145,11 +145,6 @@ export default function ScriptButton() {
           <h2>Duplicate Matches - in AEST:</h2>
           <ul>
             {duplicates.map(([match1, match2], index) => {
-              const time1 = new Date(match1.timestamp * 1000).toLocaleString('en-AU', {
-                timeZone: 'Australia/Sydney',
-                dateStyle: 'medium',
-                timeStyle: 'medium',
-              });
               const time2 = new Date(match2.timestamp * 1000).toLocaleString('en-AU', {
                 timeZone: 'Australia/Sydney',
                 dateStyle: 'medium',
