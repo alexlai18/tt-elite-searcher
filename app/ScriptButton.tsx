@@ -32,8 +32,7 @@ export default function ScriptButton() {
       .map((entry: string) => {
         const [players, timestamp, slug, customId] = entry.split('|');
         return { players, timestamp: parseInt(timestamp), slug, customId };
-      })
-      .sort((a, b) => a.timestamp - b.timestamp);
+      });
 
     // Find duplicate matches within the time window
     const duplicateMatches = [];
@@ -118,7 +117,8 @@ export default function ScriptButton() {
   const handleClick = async () => {
     setLoading(true);
     const allMatches = await fetchMatches();
-    const duplicates = findDuplicateMatches(allMatches);
+    let duplicates = findDuplicateMatches(allMatches);
+    duplicates = duplicates.sort(([, match2A], [, match2B]) => match2A.timestamp - match2B.timestamp);
     setDuplicates(duplicates);
     setLoading(false);
   };
