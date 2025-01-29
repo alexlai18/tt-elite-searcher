@@ -32,7 +32,7 @@ export default function ScriptButton() {
       .map((entry: string) => {
         const [players, timestamp, slug, customId] = entry.split('|');
         return { players, timestamp: parseInt(timestamp), slug, customId };
-      });
+      }).sort((a, b) => a.timestamp - b.timestamp);
 
     // Find duplicate matches within the time window
     const duplicateMatches = [];
