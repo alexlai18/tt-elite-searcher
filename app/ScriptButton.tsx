@@ -165,7 +165,7 @@ export default function ScriptButton() {
                     >
                       {match1.players}
                     </a>
-                  </strong> at {time1} and {time2}
+                  </strong> at {time2}
                 </li>
               );
             })}
