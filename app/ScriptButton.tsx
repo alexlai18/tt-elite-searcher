@@ -76,6 +76,14 @@ export default function ScriptButton() {
         if (!fetchedData.hasNextPage) {
           break;
         }
+
+        if (
+          fetchedData.events &&
+          fetchedData.events.length > 0 &&
+          fetchedData.events[0].startTimestamp - Math.floor(Date.now() / 1000) > 12 * 60 * 60
+        ) {
+          break;
+        }
         counter++;
       } catch (error) {
         console.error('Error fetching matches:', error);
