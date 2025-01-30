@@ -80,7 +80,7 @@ export default function ScriptButton() {
         if (
           fetchedData.events &&
           fetchedData.events.length > 0 &&
-          fetchedData.events[0].startTimestamp - Math.floor(Date.now() / 1000) > 12 * 60 * 60
+          fetchedData.events[fetchedData.events.length - 1].startTimestamp - Math.floor(Date.now() / 1000) > 12 * 60 * 60
         ) {
           break;
         }
