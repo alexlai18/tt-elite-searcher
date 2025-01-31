@@ -69,6 +69,11 @@ export default function ScriptButton() {
         const response = await fetch(
           `https://www.sofascore.com/api/v1/unique-tournament/19041/events/next/${counter}`
         );
+
+        if (!response.ok) {
+          break;
+        }
+        
         const fetchedData = await response.json()
         const matches = fetchedData.events;
         allMatches = allMatches.concat(matches);
