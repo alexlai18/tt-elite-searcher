@@ -67,7 +67,9 @@ export default function ScriptButton() {
     while (true) {
       try {
         const response = await fetch(
-          `https://www.sofascore.com/api/v1/unique-tournament/19041/events/next/${counter}`
+          `https://www.sofascore.com/api/v1/unique-tournament/19041/events/next/${counter}`, {
+            cache: 'no-store',
+          }
         );
 
         if (!response.ok) {
@@ -105,8 +107,15 @@ export default function ScriptButton() {
     for (let i = 0; i < 4; i += 1) {
       try {
         const response = await fetch(
-          `https://www.sofascore.com/api/v1/unique-tournament/19041/events/last/${counter}`
+          `https://www.sofascore.com/api/v1/unique-tournament/19041/events/last/${counter}`, {
+            cache: 'no-store',
+          }
         );
+
+        if (!response.ok) {
+          break;
+        }
+        
         const fetchedData = await response.json()
         const matches = fetchedData.events;
         allMatches = allMatches.concat(matches);
